@@ -2,6 +2,7 @@ package cleancode.minesweeper.tobe;
 
 import cleancode.minesweeper.tobe.cell.*;
 import cleancode.minesweeper.tobe.gamelevel.GameLevel;
+import cleancode.minesweeper.tobe.position.CellPosition;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -20,6 +21,27 @@ public class GameBoard {
     public void flag(int rowIndex, int colIndex) {
         Cell cell = findCell(rowIndex, colIndex);
         cell.flag();
+    }
+
+    private boolean doesCellHaveLandMineCount(int row, int col) {
+        return findCell(row, col).hasLandMineCount();
+    }
+
+    private boolean isOpenedCell(int row, int col) {
+        return findCell(row, col).isOpened();
+    }
+
+    public boolean isAllCellChecked() {
+        return Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .allMatch(Cell::isChecked);
+    }
+
+    public boolean isInvalidCellPosition(CellPosition cellPosition) {
+        int rowSize = getRowSize();
+        int colSize = getColSize();
+        return cellPosition.isRowIndexMoreThanOrEqual(rowSize)
+                || cellPosition.isColIndexMoreThanOrEqual(colSize);
     }
 
     public void initializeGame() {
@@ -139,17 +161,4 @@ public class GameBoard {
         openSurroundedCells(row + 1, col + 1);
     }
 
-    private boolean doesCellHaveLandMineCount(int row, int col) {
-        return findCell(row, col).hasLandMineCount();
-    }
-
-    private boolean isOpenedCell(int row, int col) {
-        return findCell(row, col).isOpened();
-    }
-
-    public boolean isAllCellChecked() {
-        return Arrays.stream(board)
-                .flatMap(Arrays::stream)
-                .allMatch(Cell::isChecked);
-    }
 }
