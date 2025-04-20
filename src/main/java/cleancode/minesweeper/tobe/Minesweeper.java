@@ -1,6 +1,5 @@
 package cleancode.minesweeper.tobe;
 
-import cleancode.minesweeper.tobe.cell.Cell;
 import cleancode.minesweeper.tobe.game.GameInitializable;
 import cleancode.minesweeper.tobe.game.GameRunnable;
 import cleancode.minesweeper.tobe.gamelevel.GameLevel;
@@ -58,19 +57,19 @@ public class Minesweeper implements GameInitializable, GameRunnable {
 
     private void actOnCell(CellPosition cellPosition, String userActionInput) {
         if (doesUserChooseToPlantFlag(userActionInput)) {
-            gameBoard.flag(selectedRowIndex, selectedColIndex);
+            gameBoard.flagAt(cellPosition);
             checkIfGameIsOver();
             return; //early return 적용
         }
 
         if (doesUserChooseToOpenCell(userActionInput)) {
-            if (gameBoard.isLandMindCell(selectedRowIndex, selectedColIndex)) {
-                gameBoard.openSurroundedCells(selectedRowIndex, selectedColIndex);
+            if (gameBoard.isLandMindCellAt(cellPosition)) {
+                gameBoard.openSurroundedCells(cellPosition);
                 changeGameStatusToLose();
                 return; //early return 적용
             }
 
-            gameBoard.open(selectedRowIndex, selectedColIndex);
+            gameBoard.openAt(cellPosition);
             checkIfGameIsOver();
             return; //early return 적용
         }
