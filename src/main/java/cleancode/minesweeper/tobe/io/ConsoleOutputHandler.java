@@ -36,9 +36,7 @@ public class ConsoleOutputHandler implements OutputHandler {
                 .mapToObj(index -> (char) ('a' + index))
                 .map(Objects::toString)
                 .toList();
-        String joiningAlphabets = String.join(" ", alphabets);
-        System.out.println("   " + joiningAlphabets);
-        return joiningAlphabets;
+        return String.join(" ", alphabets);
     }
 
     @Override
