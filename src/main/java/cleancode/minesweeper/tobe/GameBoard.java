@@ -44,6 +44,10 @@ public class GameBoard {
             || cellPosition.isColIndexMoreThanOrEqual(colSize);
     }
 
+    public CellSnapshot getSnapshot(CellPosition cellPosition) {
+        return findCell(cellPosition).getSnapshot();
+    }
+
     public void initializeGame() {
         CellPositions cellPositions = CellPositions.from(board);
 
@@ -116,11 +120,6 @@ public class GameBoard {
         return cell.isLandMine();
     }
 
-    public String getSign(CellPosition cellPosition) {
-        Cell cell = findCell(cellPosition);
-        return cell.getSign();
-    }
-
     private Cell findCell(CellPosition cellPosition) {
         return board[cellPosition.getRowIndex()][cellPosition.getColIndex()];
     }
@@ -147,4 +146,5 @@ public class GameBoard {
         calculateSurroundedPositions(cellPosition, getRowSize(), getColSize())
                 .forEach(this::openSurroundedCells);
     }
+
 }
