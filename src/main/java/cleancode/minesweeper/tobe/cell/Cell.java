@@ -1,8 +1,6 @@
 package cleancode.minesweeper.tobe.cell;
 
 public interface Cell {
-    String UNCHECKED_SIGN = "□";
-    String FLAG_SIGN = "⚑";
 
     boolean isLandMine();
 
