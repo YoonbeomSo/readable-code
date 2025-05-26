@@ -3,7 +3,6 @@ package cleancode.minesweeper.tobe;
 import cleancode.minesweeper.tobe.config.GameConfig;
 import cleancode.minesweeper.tobe.game.GameInitializable;
 import cleancode.minesweeper.tobe.game.GameRunnable;
-import cleancode.minesweeper.tobe.gamelevel.GameLevel;
 import cleancode.minesweeper.tobe.io.InputHandler;
 import cleancode.minesweeper.tobe.io.OutputHandler;
 import cleancode.minesweeper.tobe.position.CellPosition;
@@ -11,12 +10,10 @@ import cleancode.minesweeper.tobe.user.UserAction;
 
 public class Minesweeper implements GameInitializable, GameRunnable {
 
-    private final BoardIndexConverter boardIndexConverter = new BoardIndexConverter();
+    private final GameBoard gameBoard;
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
 
-    private int gameStatus = 0; // 0: 게임 중, 1: 승리, -1: 패배
-    private final GameBoard gameBoard;
 
     public Minesweeper(GameConfig gameConfig) {
         gameBoard = new GameBoard(gameConfig.getGameLevel());
@@ -33,19 +30,9 @@ public class Minesweeper implements GameInitializable, GameRunnable {
     public void run() {
         outputHandler.showGameStartComments();
 
-        while (true) {
+        while (gameBoard.isInProgress()) {
             try {
                 outputHandler.showBoard(gameBoard);
-
-                if (doesUserWinTheGame()) {
-                    outputHandler.showGameWinningComments();
-                    break;
-                }
-                if (doesUserLoseTheGame()) {
-                    outputHandler.showGameLosingComments();
-                    break;
-                }
-
                 CellPosition cellPosition = getCellInputFromUser();
                 UserAction userAction = getUserActionInputFromUser();
                 actOnCell(cellPosition, userAction);
@@ -55,32 +42,30 @@ public class Minesweeper implements GameInitializable, GameRunnable {
                 outputHandler.showSimpleMessage("프로그램에 문제가 생겼습니다.");
             }
         }
+
+        outputHandler.showBoard(gameBoard);
+
+        if (gameBoard.isWinStatus()) {
+            outputHandler.showGameWinningComments();
+        }
+        if (gameBoard.isLoseStatus()) {
+            outputHandler.showGameLosingComments();
+        }
     }
 
     private void actOnCell(CellPosition cellPosition, UserAction userAction) {
         if (doesUserChooseToPlantFlag(userAction)) {
             gameBoard.flagAt(cellPosition);
-            checkIfGameIsOver();
-            return; //early return 적용
+            return;
         }
 
         if (doesUserChooseToOpenCell(userAction)) {
-            if (gameBoard.isLandMindCellAt(cellPosition)) {
-                gameBoard.openSurroundedCells(cellPosition);
-                changeGameStatusToLose();
-                return; //early return 적용
-            }
-
             gameBoard.openAt(cellPosition);
-            checkIfGameIsOver();
-            return; //early return 적용
+            return;
         }
         System.out.println("잘못된 번호를 선택하셨습니다.");
     }
 
-    private void changeGameStatusToLose() {
-        gameStatus = -1;
-    }
 
     private boolean doesUserChooseToOpenCell(UserAction userAction) {
         return userAction == UserAction.OPEN;
@@ -102,29 +87,7 @@ public class Minesweeper implements GameInitializable, GameRunnable {
         if(gameBoard.isInvalidCellPosition(cellPosition)) {
             throw new GameException("잘못된 좌표입니다.");
         }
-
-
         return cellPosition;
     }
-
-    private boolean doesUserLoseTheGame() {
-        return gameStatus == -1;
-    }
-
-    private boolean doesUserWinTheGame() {
-        return gameStatus == 1;
-    }
-
-    private void checkIfGameIsOver() {
-        boolean isAllChecked = gameBoard.isAllCellChecked();
-        if (isAllChecked) {
-            changeGameStatusToWin();
-        }
-    }
-
-    private void changeGameStatusToWin() {
-        gameStatus = 1;
-    }
-
 
 }
