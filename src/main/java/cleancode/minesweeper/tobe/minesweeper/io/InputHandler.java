@@ -6,7 +6,9 @@ import cleancode.minesweeper.tobe.minesweeper.user.UserAction;
 public interface InputHandler {
 
     String getUserInput();
+
     UserAction getUserActionFromUser();
+
     CellPosition getCellPositionFromUser();
 
 }

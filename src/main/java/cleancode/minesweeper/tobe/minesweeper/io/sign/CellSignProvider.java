@@ -5,7 +5,7 @@ import cleancode.minesweeper.tobe.minesweeper.board.cell.CellSnapshotStatus;
 
 import java.util.Arrays;
 
-public enum CellSignProvider implements CellSignProvidable{
+public enum CellSignProvider implements CellSignProvidable {
 
     EMPTY(CellSnapshotStatus.EMPTY) {
         @Override
@@ -50,11 +50,6 @@ public enum CellSignProvider implements CellSignProvidable{
         this.status = status;
     }
 
-    @Override
-    public boolean supports(CellSnapshot cellSnapshot) {
-        return cellSnapshot.isSameStatus(status);
-    }
-
     public static String findCellSignFrom(CellSnapshot snapshot) {
         CellSignProvider cellSignprovider = findBy(snapshot);
         return cellSignprovider.provide(snapshot);
@@ -65,6 +60,11 @@ public enum CellSignProvider implements CellSignProvidable{
                 .filter(cellSignProvider -> cellSignProvider.supports(snapshot))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("확인할 수 없는 셀입니다."));
+    }
+
+    @Override
+    public boolean supports(CellSnapshot cellSnapshot) {
+        return cellSnapshot.isSameStatus(status);
     }
 
 }

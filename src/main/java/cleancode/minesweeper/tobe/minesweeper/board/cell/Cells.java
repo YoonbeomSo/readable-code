@@ -6,7 +6,7 @@ import java.util.List;
 public class Cells {
     private final List<Cell> cells;
 
-    private  Cells(List<Cell> cells) {
+    private Cells(List<Cell> cells) {
         this.cells = cells;
     }
 

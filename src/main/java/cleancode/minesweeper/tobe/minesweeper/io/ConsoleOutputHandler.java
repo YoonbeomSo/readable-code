@@ -14,6 +14,14 @@ public class ConsoleOutputHandler implements OutputHandler {
 
     private final CellSignFinder cellSignFinder = new CellSignFinder();
 
+    private static String generateColAlphabets(GameBoard board) {
+        List<String> alphabets = IntStream.range(0, board.getColSize())
+                .mapToObj(index -> (char) ('a' + index))
+                .map(Objects::toString)
+                .toList();
+        return String.join(" ", alphabets);
+    }
+
     @Override
     public void showGameStartComments() {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -39,14 +47,6 @@ public class ConsoleOutputHandler implements OutputHandler {
             }
             System.out.println();
         }
-    }
-
-    private static String generateColAlphabets(GameBoard board) {
-        List<String> alphabets = IntStream.range(0, board.getColSize())
-                .mapToObj(index -> (char) ('a' + index))
-                .map(Objects::toString)
-                .toList();
-        return String.join(" ", alphabets);
     }
 
     @Override
