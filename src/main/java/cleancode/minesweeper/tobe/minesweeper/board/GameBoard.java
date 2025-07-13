@@ -131,8 +131,8 @@ public class GameBoard {
                 .toList();
     }
 
-    private void updateCellAt(CellPosition postion , Cell cell) {
-        board[postion.getRowIndex()][postion.getColIndex()] = cell;
+    private void updateCellAt(CellPosition position, Cell cell) {
+        board[position.getRowIndex()][position.getColIndex()] = cell;
     }
 
     private void openSurroundedCells(CellPosition cellPosition) {
