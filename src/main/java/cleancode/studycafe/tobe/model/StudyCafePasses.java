@@ -13,4 +13,10 @@ public class StudyCafePasses {
     public static StudyCafePasses of(List<StudyCafePass> passes) {
         return new StudyCafePasses(passes);
     }
+
+    public List<StudyCafePass> findPassBy(StudyCafePassType studyCafePassType) {
+        return passes.stream()
+            .filter(studyCafePass -> studyCafePass.isSamePassType(studyCafePassType))
+            .toList();
+    }
 }
