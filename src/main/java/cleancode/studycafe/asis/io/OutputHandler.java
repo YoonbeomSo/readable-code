@@ -42,22 +42,6 @@ public class OutputHandler {
         System.out.println("1. 예 | 2. 아니오");
     }
 
-    public void showPassOrderSummary(StudyCafePass selectedPass) {
-        System.out.println();
-        System.out.println("이용 내역");
-        System.out.println("이용권: " + selectedPass.display());
-
-        double discountRate = selectedPass.getDiscountRate();
-        int discountPrice = (int) (selectedPass.getPrice() * discountRate);
-        if (discountPrice > 0) {
-            System.out.println("이벤트 할인 금액: " + discountPrice + "원");
-        }
-
-        int totalPrice = selectedPass.getPrice() - discountPrice;
-        System.out.println("총 결제 금액: " + totalPrice + "원");
-        System.out.println();
-    }
-
     public void showPassOrderSummary(StudyCafePass selectedPass, StudyCafeLockerPass lockerPass) {
         System.out.println();
         System.out.println("이용 내역");

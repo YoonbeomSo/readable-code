@@ -1,10 +1,8 @@
 package cleancode.studycafe.tobe.io;
 
-import cleancode.studycafe.asis.io.InputHandler;
-import cleancode.studycafe.asis.io.OutputHandler;
-import cleancode.studycafe.asis.model.StudyCafeLockerPass;
-import cleancode.studycafe.asis.model.StudyCafePass;
-import cleancode.studycafe.asis.model.StudyCafePassType;
+import cleancode.studycafe.tobe.model.StudyCafeLockerPass;
+import cleancode.studycafe.tobe.model.StudyCafePass;
+import cleancode.studycafe.tobe.model.StudyCafePassType;
 
 import java.util.List;
 
